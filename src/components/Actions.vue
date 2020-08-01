@@ -24,10 +24,8 @@ export default {
   components: {
     FileUpload,
   },
-  data() {
-    return {
-      editByPt: true,
-    };
+  props: {
+    editByPt: Boolean
   },
   methods: {
     createPt(files) {
@@ -151,7 +149,7 @@ export default {
     },
     toggleMode() {
       this.editByPt = !this.editByPt;
-      this.$emit("toggle-mode", this.editByPt);
+      this.$emit("update:editByPt", this.editByPt);
     },
     // Helpers
     abbreviateDays(days) {

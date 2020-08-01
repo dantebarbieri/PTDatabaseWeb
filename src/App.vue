@@ -2,11 +2,11 @@
   <div id="app">
     <DbContent id="content" v-model="peerTeachers" :editByPt="editByPt" :labs="labs" />
     <Actions
+      :editByPt.sync="editByPt"
       @new-db="updateDb"
       @new-pt="addNewPt"
       @new-labs="updateLabs"
       @save-db="save"
-      @toggle-mode="updateMode"
     />
   </div>
 </template>
