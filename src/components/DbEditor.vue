@@ -34,7 +34,7 @@
 import List from "@/components/shared/List";
 
 export default {
-  name: "DbContent",
+  name: "DbEditor",
   components: {
     List,
   },

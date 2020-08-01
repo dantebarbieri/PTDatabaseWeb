@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <DbContent id="content" v-model="peerTeachers" :editByPt="editByPt" :labs="labs" />
+    <DbEditor id="content" v-model="peerTeachers" :editByPt="editByPt" :labs="labs" />
     <Actions
       :editByPt.sync="editByPt"
       @download="download"
@@ -14,13 +14,13 @@
 
 <script>
 import Actions from "@/components/Actions";
-import DbContent from "@/components/DbContent";
+import DbEditor from "@/components/DbEditor";
 
 export default {
   name: "App",
   components: {
     Actions,
-    DbContent,
+    DbEditor,
   },
   data() {
     return {
