@@ -2,19 +2,30 @@
   <div class="content">
     <List class="list" :items="peerTeachers" @select-row="updateCurrentPt" #default="slotProps">
       <span>{{slotProps.item.toString()}}</span>
-      <button class="row-btn btn-remove" @click="removePt(slotProps.index)">Remove</button>
+      <button
+        class="row-btn btn-maroon"
+        :disabled="editByPt ? false : labConflicts(slotProps.item, currentLab)"
+        @click="editByPt ? removePt(slotProps.item) : assignPt(slotProps.item)"
+      >{{editByPt ? "Remove" : "Add"}}</button>
     </List>
-    <List class="list" :items="labs" #default="slotProps">
+    <List class="list" :items="labs" @select-row="updateCurrentLab" #default="slotProps">
       <span>{{slotProps.item.toString()}}</span>
       <button
-        class="row-btn btn-add"
-        :disabled="labConflicts(currentPt, slotProps.item)"
-        @click="assignLab(slotProps.index)"
+        class="row-btn btn-blue"
+        :disabled="editByPt ? labConflicts(currentPt, slotProps.item) : true"
+        @click="assignLab(slotProps.item)"
       >Add</button>
     </List>
-    <List class="list" :items="this.currentAssignments" #default="slotProps">
+    <List
+      class="list"
+      :items="editByPt ? this.currentAssignments : this.currentPts"
+      #default="slotProps"
+    >
       <span>{{slotProps.item.toString()}}</span>
-      <button class="row-btn btn-remove" @click="unassignLab(slotProps.index)">Remove</button>
+      <button
+        class="row-btn btn-maroon"
+        @click="editByPt ? unassignLab(slotProps.index) : unassignPt(slotProps.item)"
+      >Remove</button>
     </List>
   </div>
 </template>
@@ -30,35 +41,48 @@ export default {
   data() {
     return {
       currentPt: {},
+      currentLab: {},
     };
   },
   props: {
     peerTeachers: Array,
     labs: Array,
+    editByPt: Boolean,
   },
   model: {
     prop: "peerTeachers",
     event: "update-peer-teachers",
   },
   methods: {
-    assignLab(labIndex) {
-      this.currentPt.assignments.push(this.labs[labIndex].id);
+    assignLab(lab) {
+      this.currentPt.assignments.push(lab.id);
+    },
+    assignPt(pt) {
+      pt.assignments.push(this.currentLab.id);
     },
     labConflicts(pt, lab) {
       if (pt.assignments === undefined) return true;
 
       return pt.assignments.includes(lab.id) || this.conflictWithPt(pt, lab);
     },
-    removePt(ptIndex) {
-      if (this.peerTeachers[ptIndex] === this.currentPt) {
+    removePt(pt) {
+      if (pt === this.currentPt) {
         this.currentPt = {};
       }
 
+      let ptIndex = this.peerTeachers.indexOf(pt);
       this.peerTeachers.splice(ptIndex, 1);
       this.$emit("update-peer-teachers", this.peerTeachers);
     },
     unassignLab(labIndex) {
       this.currentPt.assignments.splice(labIndex, 1);
+    },
+    unassignPt(pt) {
+      let labIndex = pt.assignments.indexOf(this.currentLab.id);
+      pt.assignments.splice(labIndex, 1);
+    },
+    updateCurrentLab(labIndex) {
+      this.currentLab = this.labs[labIndex];
     },
     updateCurrentPt(ptIndex) {
       this.currentPt = this.peerTeachers[ptIndex];
@@ -132,7 +156,6 @@ export default {
       if (this.currentPt.assignments === undefined) return [];
 
       let assignments = [];
-
       for (let assignment of this.currentPt.assignments) {
         let labIndex = this.getLabIndex(assignment);
         if (labIndex !== -1) {
@@ -141,6 +164,18 @@ export default {
       }
 
       return assignments;
+    },
+    currentPts() {
+      if (this.currentLab.id === undefined) return [];
+
+      let pts = [];
+      for (let pt of this.peerTeachers) {
+        if (pt.assignments.includes(this.currentLab.id)) {
+          pts.push(pt);
+        }
+      }
+
+      return pts;
     },
   },
 };
@@ -170,21 +205,21 @@ export default {
   visibility: hidden;
 }
 
-.btn-remove {
+.btn-maroon {
   background: #3c0000;
   color: white;
 }
 
-.btn-remove:hover {
+.btn-maroon:hover {
   background: #230000;
 }
 
-.btn-add {
+.btn-blue {
   background: #003c71;
   color: white;
 }
 
-.btn-add:hover {
+.btn-blue:hover {
   background: #00203d;
 }
 </style>

@@ -1,15 +1,12 @@
 <template>
   <div id="app">
-    <DbContent
-      id="content"
-      v-model="peerTeachers"
-      :labs="labs"
-    />
-    <Actions 
+    <DbContent id="content" v-model="peerTeachers" :editByPt="editByPt" :labs="labs" />
+    <Actions
       @new-db="updateDb"
       @new-pt="addNewPt"
       @new-labs="updateLabs"
-      @save-db="save" 
+      @save-db="save"
+      @toggle-mode="updateMode"
     />
   </div>
 </template>
@@ -22,16 +19,17 @@ import PeerTeacher from "@/models/PeerTeacher";
 import Lab from "@/models/Lab";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Actions,
-    DbContent
+    DbContent,
   },
   data() {
     return {
       peerTeachers: [],
-      labs: []
-    }
+      labs: [],
+      editByPt: true,
+    };
   },
   methods: {
     addNewPt(pt) {
@@ -43,10 +41,10 @@ export default {
     download() {
       let json = JSON.stringify({
         "peerTeachers": this.peerTeachers,
-        "labs": this.labs
+        "labs": this.labs,
       });
 
-      let blob = new Blob([json], {tyoe: "application/json"});
+      let blob = new Blob([json], { tyoe: "application/json" });
 
       let a = document.createElement("a");
       let url = window.URL.createObjectURL(blob);
@@ -58,12 +56,12 @@ export default {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      window.URL.revokeObjectURL(url)
+      window.URL.revokeObjectURL(url);
     },
     save() {
       let json = JSON.stringify({
         "peerTeachers": this.peerTeachers,
-        "labs": this.labs
+        "labs": this.labs,
       });
       localStorage.setItem("ptdb", json);
     },
@@ -73,11 +71,17 @@ export default {
     },
     updateLabs(labs) {
       this.labs = labs;
-    }
+    },
+    updateMode(mode) {
+      this.editByPt = mode;
+    },
   },
-  mounted: function() {
-    this._keyListener = function(e) {
-      if(e.key === "s" && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+  mounted: function () {
+    this._keyListener = function (e) {
+      if (
+        e.key === "s" &&
+        (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)
+      ) {
         e.preventDefault();
         this.download();
       }
@@ -85,11 +89,11 @@ export default {
     this._boundListener = this._keyListener.bind(this);
     document.addEventListener("keydown", this._boundListener);
 
-    if(localStorage.ptdb) {
+    if (localStorage.ptdb) {
       let db;
       try {
         db = JSON.parse(localStorage.ptdb);
-      } catch(e) {
+      } catch (e) {
         console.error("Db corrupted");
         localStorage.removeItem("ptdb");
         return;
@@ -98,11 +102,11 @@ export default {
       let pts = [];
       let labs = [];
 
-      db.peerTeachers.forEach(el => {
+      db.peerTeachers.forEach((el) => {
         pts.push(PeerTeacher.PeerTeacherFromObj(el));
       });
 
-      db.labs.forEach(el => {
+      db.labs.forEach((el) => {
         labs.push(Lab.LabFromObj(el));
       });
 
@@ -110,9 +114,9 @@ export default {
       this.labs = labs;
     }
   },
-  beforeDestroy: function() {
+  beforeDestroy: function () {
     document.removeEventListener("keydown", this._boundListener);
-  }
+  },
 };
 </script>
 

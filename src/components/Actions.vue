@@ -8,6 +8,7 @@
       @new-upload="createPt"
     >Upload PT</FileUpload>
     <FileUpload class="action-btn" :accept="'application/json'" @new-upload="newLabs">Upload Labs</FileUpload>
+    <button class="btn action-btn" @click="toggleMode">By {{editByPt ? "Lab" : "PT"}}</button>
     <button class="btn action-btn" @click="$emit('save-db')">Save</button>
   </div>
 </template>
@@ -20,11 +21,14 @@ import PeerTeacher from "@/models/PeerTeacher";
 
 export default {
   name: "Actions",
-
   components: {
     FileUpload,
   },
-
+  data() {
+    return {
+      editByPt: true,
+    };
+  },
   methods: {
     createPt(files) {
       for (const file of files) {
@@ -144,6 +148,10 @@ export default {
       };
 
       fileReader.readAsText(file);
+    },
+    toggleMode() {
+      this.editByPt = !this.editByPt;
+      this.$emit("toggle-mode", this.editByPt);
     },
     // Helpers
     abbreviateDays(days) {
