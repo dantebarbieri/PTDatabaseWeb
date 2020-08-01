@@ -1,35 +1,30 @@
 <template>
-    <label class="file-lbl">
-        <input 
-          class="file-input"
-          type="file" 
-          :accept="accept"
-          @change="newUpload"
-          :multiple="multiple">
-        <slot>Upload</slot>
-    </label>
+  <label class="file-lbl">
+    <input class="file-input" type="file" :accept="accept" @change="newUpload" :multiple="multiple" />
+    <slot>Upload</slot>
+  </label>
 </template>
 
 <script>
 export default {
-    name: "FileUpload",
-    props: {
-      accept: String,
-      multiple: {
-        type: Boolean,
-        default: false
+  name: "FileUpload",
+  props: {
+    accept: String,
+    multiple: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  methods: {
+    newUpload(event) {
+      if (this.multiple) {
+        this.$emit("new-upload", event.target.files);
+      } else {
+        this.$emit("new-upload", event.target.files[0]);
       }
     },
-    methods: {
-      newUpload(event) {
-        if(this.multiple) {
-          this.$emit('new-upload', event.target.files)
-        } else {
-          this.$emit('new-upload', event.target.files[0]);
-        }
-      }
-    }
-}
+  },
+};
 </script>
 
 <style scoped>
