@@ -178,47 +178,6 @@ export default {
       return result;
     },
   },
-  mounted: function () {
-    this._keyListener = function (e) {
-      if (
-        e.key === "s" &&
-        (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)
-      ) {
-        e.preventDefault();
-        this.$emit("download");
-      }
-    };
-    this._boundListener = this._keyListener.bind(this);
-    document.addEventListener("keydown", this._boundListener);
-
-    if (localStorage.ptdb) {
-      let db;
-      try {
-        db = JSON.parse(localStorage.ptdb);
-      } catch (e) {
-        console.error("Db corrupted");
-        localStorage.removeItem("ptdb");
-        return;
-      }
-
-      let pts = [];
-      let labs = [];
-
-      db.peerTeachers.forEach((el) => {
-        pts.push(PeerTeacher.PeerTeacherFromObj(el));
-      });
-
-      db.labs.forEach((el) => {
-        labs.push(Lab.LabFromObj(el));
-      });
-
-      this.peerTeachers = pts;
-      this.labs = labs;
-    }
-  },
-  beforeDestroy: function () {
-    document.removeEventListener("keydown", this._boundListener);
-  },
 };
 </script>
 

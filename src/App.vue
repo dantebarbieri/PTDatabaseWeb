@@ -3,7 +3,6 @@
     <DbEditor id="content" v-model="peerTeachers" :editByPt="editByPt" :labs="labs" />
     <Actions
       :editByPt.sync="editByPt"
-      @download="download"
       @new-db="updateDb"
       @new-pt="addNewPt"
       @new-labs="updateLabs"
@@ -15,6 +14,9 @@
 <script>
 import Actions from "@/components/Actions";
 import DbEditor from "@/components/DbEditor";
+
+import PeerTeacher from "@/models/PeerTeacher";
+import Lab from "@/models/Lab";
 
 export default {
   name: "App",
@@ -74,7 +76,47 @@ export default {
       this.editByPt = mode;
     },
   },
-  
+  mounted: function () {
+    this._keyListener = function (e) {
+      if (
+        e.key === "s" &&
+        (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)
+      ) {
+        e.preventDefault();
+        this.download();
+      }
+    };
+    this._boundListener = this._keyListener.bind(this);
+    document.addEventListener("keydown", this._boundListener);
+
+    if (localStorage.ptdb) {
+      let db;
+      try {
+        db = JSON.parse(localStorage.ptdb);
+      } catch (e) {
+        console.error("Db corrupted");
+        localStorage.removeItem("ptdb");
+        return;
+      }
+
+      let pts = [];
+      let labs = [];
+
+      db.peerTeachers.forEach((el) => {
+        pts.push(PeerTeacher.PeerTeacherFromObj(el));
+      });
+
+      db.labs.forEach((el) => {
+        labs.push(Lab.LabFromObj(el));
+      });
+
+      this.peerTeachers = pts;
+      this.labs = labs;
+    }
+  },
+  beforeDestroy: function () {
+    document.removeEventListener("keydown", this._boundListener);
+  }
 };
 </script>
 

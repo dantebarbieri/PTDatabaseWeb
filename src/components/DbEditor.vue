@@ -1,32 +1,41 @@
 <template>
   <div class="content">
-    <List class="list" :items="peerTeachers" @select-row="updateCurrentPt" #default="slotProps">
-      <span>{{slotProps.item.toString()}}</span>
-      <button
-        class="row-btn btn-maroon"
-        :disabled="editByPt ? false : labConflicts(slotProps.item, currentLab)"
-        @click="editByPt ? removePt(slotProps.item) : assignPt(slotProps.item)"
-      >{{editByPt ? "Remove" : "Add"}}</button>
-    </List>
-    <List class="list" :items="labs" @select-row="updateCurrentLab" #default="slotProps">
-      <span>{{slotProps.item.toString()}}</span>
-      <button
-        class="row-btn btn-blue"
-        :disabled="editByPt ? labConflicts(currentPt, slotProps.item) : true"
-        @click="assignLab(slotProps.item)"
-      >Add</button>
-    </List>
-    <List
-      class="list"
-      :items="editByPt ? this.currentAssignments : this.currentPts"
-      #default="slotProps"
-    >
-      <span>{{slotProps.item.toString()}}</span>
-      <button
-        class="row-btn btn-maroon"
-        @click="editByPt ? unassignLab(slotProps.index) : unassignPt(slotProps.item)"
-      >Remove</button>
-    </List>
+    <div class="column">
+      <h3>Peer Teachers</h3>
+      <List class="list" :items="peerTeachers" @select-row="updateCurrentPt" #default="slotProps">
+        <span>{{slotProps.item.toString()}}</span>
+        <button
+          class="row-btn btn-maroon"
+          :disabled="editByPt ? false : labConflicts(slotProps.item, currentLab)"
+          @click="editByPt ? removePt(slotProps.item) : assignPt(slotProps.item)"
+        >{{editByPt ? "Remove" : "Add"}}</button>
+      </List>
+    </div>
+    <div class="column">
+      <h3>Labs</h3>
+      <List class="list" :items="labs" @select-row="updateCurrentLab" #default="slotProps">
+        <span>{{slotProps.item.toString()}}</span>
+        <button
+          class="row-btn btn-blue"
+          :disabled="editByPt ? labConflicts(currentPt, slotProps.item) : true"
+          @click="assignLab(slotProps.item)"
+        >Add</button>
+      </List>
+    </div>
+    <div class="column">
+      <h3>{{currentPt.name || "Select a student..."}}</h3>
+      <List
+        class="list"
+        :items="editByPt ? this.currentAssignments : this.currentPts"
+        #default="slotProps"
+      >
+        <span>{{slotProps.item.toString()}}</span>
+        <button
+          class="row-btn btn-maroon"
+          @click="editByPt ? unassignLab(slotProps.index) : unassignPt(slotProps.item)"
+        >Remove</button>
+      </List>
+    </div>
   </div>
 </template>
 
@@ -187,10 +196,14 @@ export default {
   min-height: 0;
 }
 
-.list {
+.column {
   flex: 1;
   margin: 5px;
   overflow: auto;
+}
+
+.column > h3 {
+  margin: 0;
 }
 
 .row-btn {
