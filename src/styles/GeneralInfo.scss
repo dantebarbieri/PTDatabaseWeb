@@ -1,0 +1,14 @@
+@import "./Variables.scss";
+
+.GeneralInfo {
+	padding: 1vmin;
+	text-align: left;
+	font-size: larger;
+
+	h3 {
+		margin-top: 0;
+		span {
+			text-decoration: underline;
+		}
+	}
+}
