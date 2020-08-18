@@ -1,0 +1,34 @@
+@import "./Variables.scss";
+
+.InputLabs {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+
+	.Input {
+		padding: 0.5rem;
+		text-align: left;
+		flex: 1;
+
+		.DragNDrop {
+			padding: 0.5rem;
+			background-color: $nord3;
+			border-radius: 1em;
+		}
+
+		textarea {
+			width: 100%;
+		}
+	}
+
+	.Instructions {
+		padding: 0.5rem;
+		text-align: left;
+		flex: 1;
+
+		h2 {
+			margin-top: 0;
+		}
+	}
+}

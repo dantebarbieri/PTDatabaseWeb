@@ -9,28 +9,36 @@
   justify-content: space-between;
 	font-size: calc(10px + 2vmin);
 
+	a:link {
+		text-decoration: none;
+	}
+
+	.active {
+		color: $nord13 !important;
+	}
+
 	.Navbar-span {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		color: $nord6;
 	}
 
 	.Navbar-links {
 		padding: 1rem;
-	}
 
-	.Navbar-link {
-		color: $link-color;
-		font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-		font-size: large;
-		text-decoration: none;
-		padding: 0 1rem;
-	}
-
-	.Navbar-link:hover {
-		color: $nord5;
-		background-color: $nord2;
-		border-radius: 1em;
+		.Navbar-link {
+			color: $link-color;
+			font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+			font-size: large;
+			padding: 0 1rem;
+		}
+	
+		.Navbar-link:hover {
+			color: $nord5;
+			background-color: $nord2;
+			border-radius: 1em;
+		}
 	}
 	
 	.Navbar-logo {

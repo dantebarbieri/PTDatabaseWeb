@@ -1,30 +1,32 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import LoginButton from './LoginButton'
 import UserIcon from './UserIcon'
 import firebase from '../firebase'
 import 'bootstrap'
 import '../styles/Navbar.scss'
 
-export default function Navbar() {
-	const [user, setUser] = React.useState<firebase.User>();
-
-	React.useEffect(() => {
-		let user = firebase.auth().currentUser
-		if(user)
-			setUser(user)
-	})
+export default function Navbar(props:
+	{
+		user: firebase.User | null
+		setUser: (user: firebase.User) => void
+	}
+) {
+	const {user, setUser} = props
 
 	return (
 		<div className="Navbar">
-			<span className="Navbar-span">
-				<img className="Navbar-logo" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Texas_A%26M_University_logo.svg" alt="TAMU" />
-				CSCE Peer Teaching
-			</span>
+			<Link className="Navbar-link" to="/">
+				<span className="Navbar-span">
+					<img className="Navbar-logo" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Texas_A%26M_University_logo.svg" alt="TAMU" />
+					CSCE Peer Teaching
+				</span>
+			</Link>
 			<span className="Navbar-links">
-				<Link className="Navbar-link" to="/">Home</Link>
-				<Link className="Navbar-link" to="/about">About</Link>
-				{firebase.auth().currentUser && <Link className="Navbar-link" to="/input-schedule">Input Schedule</Link>}
+				<NavLink exact className="Navbar-link" activeClassName="active" to="/">Home</NavLink>
+				<NavLink  className="Navbar-link" activeClassName="active" to="/about">About</NavLink>
+				{user && <NavLink  className="Navbar-link" activeClassName="active" to="/input-schedule">Input Schedule</NavLink>}
+				{user && <NavLink  className="Navbar-link" activeClassName="active" to="/input-labs">Input Labs</NavLink>}
 			</span>
 			{user ? <UserIcon userIcon={user.photoURL} /> : <LoginButton setUser={setUser} />}
 		</div>

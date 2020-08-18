@@ -4,6 +4,10 @@
 	padding: 0.5rem;
 	margin: 0 0.75rem;
 
+	.UserIcon-link {
+		border-radius: 50%;
+	}
+
 	.IconBorder {
 		border: solid $tamu-white;
 		background-color: $tamu-maroon;

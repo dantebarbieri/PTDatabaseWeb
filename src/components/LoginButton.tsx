@@ -11,7 +11,7 @@ export default function LoginButton(props:
 			<button type="button" onClick={() => {
 				let provider = new firebase.auth.GoogleAuthProvider()
 				firebase.auth().useDeviceLanguage()
-				firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+				firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
 				firebase.auth().signInWithPopup(provider).then(result => {
 					// The signed-in user info.
 					let user = result.user
@@ -29,7 +29,7 @@ export default function LoginButton(props:
 				});
 			}}>
 				<div>
-					<img width="18" height="18" src={TAMULogo} />
+					<img width="18" height="18" src={TAMULogo} alt="TAMU Logo" />
 				</div>
 				<span>
 					Sign in with CAS
