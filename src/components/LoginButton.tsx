@@ -11,12 +11,34 @@ export default function LoginButton(props:
 			<button type="button" onClick={() => {
 				let provider = new firebase.auth.GoogleAuthProvider()
 				firebase.auth().useDeviceLanguage()
-				firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+				firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
 				firebase.auth().signInWithPopup(provider).then(result => {
 					// The signed-in user info.
 					let user = result.user
-					if(user)
+					if (user) {
 						props.setUser(user)
+						const docRef = firebase.firestore().collection('users').doc(user.uid)
+						docRef.get()
+						.then(doc => {
+							if(!doc.exists) {
+								const name = user?.displayName?.split(/[\s,]+/).filter(Boolean)
+								let firstName: string | undefined
+								let lastName: string | undefined
+								if(name){
+									firstName = name.shift()
+									lastName = name.reduce((accumulator, currentValue) => accumulator + ' ' + currentValue)
+								}
+								docRef.set({
+									name: user?.displayName,
+									firstName: firstName,
+									lastName: lastName,
+									email: user?.email,
+									photoUrl: user?.photoURL,
+								})
+							}
+						})
+						.catch(error => console.error(error))
+					}
 				}).catch(error => {
 					// Handle Errors here.
 					var errorCode = error.code;

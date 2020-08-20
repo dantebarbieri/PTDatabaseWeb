@@ -23,7 +23,6 @@ export default function GeneralInfo() {
 					Join the <a href="https://discord.com/invite/gzaXDTN">Peer Teacher Discord server</a>
 				</li>
 			</ol>
-			<hr />
 		</div>
 	)
 }

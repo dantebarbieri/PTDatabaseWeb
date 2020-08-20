@@ -17,7 +17,9 @@ function App() {
 		let user = firebase.auth().currentUser
 		if (user)
 			setUser(user)
-	}, [])
+  }, [])
+  
+  
 
   return (
     <Router>

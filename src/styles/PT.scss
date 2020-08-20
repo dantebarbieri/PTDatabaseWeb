@@ -1,0 +1,13 @@
+@import "./Variables.scss";
+
+.PT {
+	img {
+		float: right;
+		border-radius: 0.25rem;
+	}
+
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+
+	max-width: 800px;
+}
