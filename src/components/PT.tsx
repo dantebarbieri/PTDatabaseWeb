@@ -2,10 +2,10 @@ import React from 'react'
 import firebase from '../firebase'
 import { v4 as uuidv4 } from 'uuid'
 import '../styles/PT.scss'
+import Week from '../model/Week'
+import Event from '../model/Event'
 
-function timeToListItem(day: string, times: Array<{
-	[field: string]: any
-}>): JSX.Element {
+function timeToListItem(day: string, times: Array<Event>): JSX.Element {
 	return (
 		<li> {day}
 			<ul>
@@ -23,6 +23,8 @@ export default function PT(props:
 	}
 ) {
 	const { data } = props
+
+	const week: Week = data.officeHours
 
 	React.useEffect(() => {
 		console.log(data.courses)
@@ -44,13 +46,13 @@ export default function PT(props:
 			<p><strong>Office Hours:</strong></p>
 			<ul>
 				TODO Add page to change values (probably on Profile)
-				{data.officeHours.Monday.length !== 0 && timeToListItem("Monday", data.officeHours.Monday)}
-				{data.officeHours.Tuesday.length !== 0 && timeToListItem("Tuesday", data.officeHours.Tuesday)}
-				{data.officeHours.Wednesday.length !== 0 && timeToListItem("Wednesday", data.officeHours.Wednesday)}
-				{data.officeHours.Thursday.length !== 0 && timeToListItem("Thursday", data.officeHours.Thursday)}
-				{data.officeHours.Friday.length !== 0 && timeToListItem("Friday", data.officeHours.Friday)}
-				{data.officeHours.Saturday.length !== 0 && timeToListItem("Saturday", data.officeHours.Saturday)}
-				{data.officeHours.Sunday.length !== 0 && timeToListItem("Sunday", data.officeHours.Sunday)}
+				{week.Monday.length !== 0 && timeToListItem("Monday", data.officeHours.Monday)}
+				{week.Tuesday.length !== 0 && timeToListItem("Tuesday", data.officeHours.Tuesday)}
+				{week.Wednesday.length !== 0 && timeToListItem("Wednesday", data.officeHours.Wednesday)}
+				{week.Thursday.length !== 0 && timeToListItem("Thursday", data.officeHours.Thursday)}
+				{week.Friday.length !== 0 && timeToListItem("Friday", data.officeHours.Friday)}
+				{week.Saturday.length !== 0 && timeToListItem("Saturday", data.officeHours.Saturday)}
+				{week.Sunday.length !== 0 && timeToListItem("Sunday", data.officeHours.Sunday)}
 			</ul>
 		</div>
 	)

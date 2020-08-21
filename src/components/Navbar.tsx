@@ -9,10 +9,14 @@ import '../styles/Navbar.scss'
 export default function Navbar(props:
 	{
 		user: firebase.User | null
+		userData: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData> | null
 		setUser: (user: firebase.User) => void
+		setUserData: (userData: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>) => void
 	}
 ) {
-	const {user, setUser} = props
+	const {user, userData, setUser, setUserData} = props
+
+	const roles: string[] = userData?.data()?.roles
 
 	return (
 		<div className="Navbar">
@@ -25,10 +29,10 @@ export default function Navbar(props:
 			<span className="Navbar-links">
 				<NavLink exact className="Navbar-link" activeClassName="active" to="/">Home</NavLink>
 				<NavLink  className="Navbar-link" activeClassName="active" to="/about">About</NavLink>
-				{user && <NavLink  className="Navbar-link" activeClassName="active" to="/input-schedule">Input Schedule</NavLink>}
-				{user && <NavLink  className="Navbar-link" activeClassName="active" to="/input-labs">Input Labs</NavLink>}
+				{roles && roles.includes('peer-teacher') && <NavLink  className="Navbar-link" activeClassName="active" to="/input-schedule">Input Schedule</NavLink>}
+				{roles && roles.includes('leader') && <NavLink  className="Navbar-link" activeClassName="active" to="/input-labs">Input Labs</NavLink>}
 			</span>
-			{user ? <UserIcon userIcon={user.photoURL} /> : <LoginButton setUser={setUser} />}
+			{user ? <UserIcon userIcon={user.photoURL} /> : <LoginButton setUser={setUser} setUserData={setUserData} />}
 		</div>
 	)
 }

@@ -1,4 +1,7 @@
-import firebase from 'firebase'
+import firebase from 'firebase/app';
+import 'firebase/auth'
+import 'firebase/firestore'
+
 const config = {
 	apiKey: "AIzaSyBt_0cpc7FLgngqLr5oGwVIljAGS22yRBQ",
   authDomain: "csce-pt-database-tamu.firebaseapp.com",
@@ -10,4 +13,7 @@ const config = {
   measurementId: "G-V3L3H699HX"
 };
 firebase.initializeApp(config)
+
+export const db = firebase.firestore()
+
 export default firebase

@@ -2,23 +2,51 @@
 
 .InputLabs {
 	display: flex;
-	flex-direction: row;
-	align-items: center;
+	flex-direction: column;
+	align-items: left;
 	justify-content: space-around;
 
-	.Input {
-		padding: 0.5rem;
-		text-align: left;
-		flex: 1;
+	.InputHandler {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-around;
 
-		textarea {
-			width: 100%;
+		.Input {
+			padding: 0.5rem;
+			text-align: left;
+			flex: 1;
+
+			.DragNDrop {
+				padding: 0.5rem;
+				background-color: $nord3;
+				border-radius: 1em;
+			}
+
+			button {
+				background-color: $nord3;
+				display: inline-flex;
+				align-items: center;
+				color: $nord4;
+				box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 2px 0px, rgba(0, 0, 0, 0.24) 0px 0px 1px 0px;
+				padding: 2px;
+				margin: 0 0.33rem;
+				border-radius: 2px;
+				border: 1px solid transparent;
+				font-size: 14px;
+				font-weight: 500;
+				font-family: Roboto, sans-serif;
+			}
+
+			textarea {
+				width: 100%;
+			}
 		}
-	}
 
-	.Instructions {
-		padding: 0.5rem;
-		text-align: left;
-		flex: 1;
+		.Instructions {
+			padding: 0.5rem;
+			text-align: left;
+			flex: 1;
+		}
 	}
 }
