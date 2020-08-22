@@ -39,21 +39,21 @@ export default function PT(props:
 			<p><strong>Courses:</strong></p>
 			<ul>
 				TODO Automate Course List
-				<li>CSCE 206</li>
+					<li>CSCE 206</li>
 				<li>CSCE 121</li>
 				<li>CSCE 221</li>
 			</ul>
 			<p><strong>Office Hours:</strong></p>
-			<ul>
+			{week && <ul>
 				TODO Add page to change values (probably on Profile)
-				{week.Monday.length !== 0 && timeToListItem("Monday", data.officeHours.Monday)}
+					{week.Monday.length !== 0 && timeToListItem("Monday", data.officeHours.Monday)}
 				{week.Tuesday.length !== 0 && timeToListItem("Tuesday", data.officeHours.Tuesday)}
 				{week.Wednesday.length !== 0 && timeToListItem("Wednesday", data.officeHours.Wednesday)}
 				{week.Thursday.length !== 0 && timeToListItem("Thursday", data.officeHours.Thursday)}
 				{week.Friday.length !== 0 && timeToListItem("Friday", data.officeHours.Friday)}
 				{week.Saturday.length !== 0 && timeToListItem("Saturday", data.officeHours.Saturday)}
 				{week.Sunday.length !== 0 && timeToListItem("Sunday", data.officeHours.Sunday)}
-			</ul>
+			</ul>}
 		</div>
 	)
 }

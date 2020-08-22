@@ -43,7 +43,9 @@ function App() {
         <Route path="/input-schedule" render={props => (
           <InputSchedule {...props} permissionToView={userData?.data()?.roles.includes('peer-teacher')} />
           )} />
-        <Route path="/profile" component={Profile} />
+        <Route path="/profile" render={props => (
+          <Profile {...props} userData={userData} />
+          )} />
       </div>
     </Router>
   );

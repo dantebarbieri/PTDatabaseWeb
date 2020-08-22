@@ -32,7 +32,7 @@ export default function Navbar(props:
 				{roles && roles.includes('peer-teacher') && <NavLink  className="Navbar-link" activeClassName="active" to="/input-schedule">Input Schedule</NavLink>}
 				{roles && roles.includes('leader') && <NavLink  className="Navbar-link" activeClassName="active" to="/input-labs">Input Labs</NavLink>}
 			</span>
-			{user ? <UserIcon userIcon={user.photoURL} /> : <LoginButton setUser={setUser} setUserData={setUserData} />}
+			{user ? <UserIcon userIcon={user.photoURL} uid={user.uid} /> : <LoginButton setUser={setUser} setUserData={setUserData} />}
 		</div>
 	)
 }
