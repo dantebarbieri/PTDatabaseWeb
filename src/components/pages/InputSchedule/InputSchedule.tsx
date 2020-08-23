@@ -1,11 +1,11 @@
 import React from 'react'
 import { useDropzone } from 'react-dropzone'
 import ical from 'ical'
-import firebase, { db } from '../../firebase'
-import schedulePicture from '../../images/schedule.png'
-import '../../styles/InputSchedule.scss'
-import Week from '../../model/Week'
-import ScheduleTable from '../ScheduleTable'
+import firebase, { db } from '../../../firebase'
+import schedulePicture from '../../../images/schedule.png'
+import '../../../styles/InputSchedule.scss'
+import Week from '../../../model/Week'
+import ScheduleTable from './ScheduleTable'
 
 enum weekday {
 	Monday = 0,

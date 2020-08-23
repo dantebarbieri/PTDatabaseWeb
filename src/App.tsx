@@ -4,9 +4,9 @@ import Navbar from './components/Navbar';
 import About from './components/pages/About';
 import PTList from './components/pages/PTList';
 import GeneralInfo from './components/pages/GeneralInfo';
-import InputLabs from './components/pages/InputLabs';
-import InputSchedule from './components/pages/InputSchedule';
-import Profile from './components/pages/Profile';
+import InputLabs from './components/pages/InputLabs/InputLabs';
+import InputSchedule from './components/pages/InputSchedule/InputSchedule';
+import Profile from './components/pages/Profile/Profile';
 import firebase, { db } from './firebase'
 import './styles/App.scss';
 
@@ -44,7 +44,7 @@ function App() {
           <InputSchedule {...props} permissionToView={userData?.data()?.roles.includes('peer-teacher')} />
           )} />
         <Route path="/profile" render={props => (
-          <Profile {...props} userData={userData} />
+          <Profile {...props} userData={userData} setUserData={setUserData} />
           )} />
       </div>
     </Router>

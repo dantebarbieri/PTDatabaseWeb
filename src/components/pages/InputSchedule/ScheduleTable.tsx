@@ -1,7 +1,7 @@
 import React from 'react'
 import DataTable, { createTheme } from 'react-data-table-component'
-import Week from '../model/Week'
-import '../styles/LabsTable.scss'
+import Week from '../../../model/Week'
+import '../../../styles/ScheduleTable.scss'
 
 createTheme('nord', {
 	text: {

@@ -1,15 +1,16 @@
 import React from 'react'
 import firebase from '../firebase'
 import { v4 as uuidv4 } from 'uuid'
-import '../styles/PT.scss'
 import Week from '../model/Week'
 import Event from '../model/Event'
+import timestampCompare from '../model/TimestampCompare'
+import '../styles/PT.scss'
 
 function timeToListItem(day: string, times: Array<Event>): JSX.Element {
 	return (
 		<li> {day}
 			<ul>
-				{times.sort((t1, t2) => t1.start.seconds - t2.start.seconds).map(time => (
+				{times.sort((t1, t2) => timestampCompare(t1.start, t2.start)).map(time => (
 					<li key={uuidv4()}>{time.start.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} &ndash; {time.stop.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</li>
 				))}
 			</ul>
@@ -45,8 +46,7 @@ export default function PT(props:
 			</ul>
 			<p><strong>Office Hours:</strong></p>
 			{week && <ul>
-				TODO Add page to change values (probably on Profile)
-					{week.Monday.length !== 0 && timeToListItem("Monday", data.officeHours.Monday)}
+				{week.Monday.length !== 0 && timeToListItem("Monday", data.officeHours.Monday)}
 				{week.Tuesday.length !== 0 && timeToListItem("Tuesday", data.officeHours.Tuesday)}
 				{week.Wednesday.length !== 0 && timeToListItem("Wednesday", data.officeHours.Wednesday)}
 				{week.Thursday.length !== 0 && timeToListItem("Thursday", data.officeHours.Thursday)}

@@ -1,9 +1,9 @@
 import React from 'react'
 import { useDropzone } from 'react-dropzone'
-import firebase, { db } from '../../firebase'
-import Lab from '../../model/Lab';
-import LabsTable from '../LabsTable';
-import '../../styles/InputLabs.scss'
+import firebase, { db } from '../../../firebase'
+import Lab from '../../../model/Lab';
+import LabsTable from './LabsTable';
+import '../../../styles/InputLabs.scss'
 
 export default function InputLabs(props:
 	{ permissionToView: boolean }
