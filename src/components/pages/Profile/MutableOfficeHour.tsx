@@ -2,6 +2,7 @@ import React from 'react'
 import firebase from '../../../firebase'
 import Event from '../../../model/Event'
 import timestampCompare from '../../../model/TimestampCompare'
+import '../../../styles/MutableOfficeHour.scss'
 
 export default function Mutablehour(props:
 	{
@@ -33,11 +34,11 @@ export default function Mutablehour(props:
 	}
 
 	return (
-		<li onBlur={() => updateHour(createEvent(startRef.current?.value, stopRef.current?.value), index)} className={`MutableOfficeHour ${conflicts || timestampCompare(hour.start, hour.stop) > 0 ? 'invalid' : ''}`}>
-			{conflicts !== 0 && <p>{conflicts} Conflict{conflicts !== 1 && 's'}</p>}
-			<input ref={startRef} defaultValue={hour.start.toDate().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })} />
+		<li className={`MutableOfficeHour ${conflicts || timestampCompare(hour.start, hour.stop) > 0 ? 'invalid' : ''}`}>
+			{/* {conflicts !== 0 && <p>{conflicts} Conflict{conflicts !== 1 && 's'}</p>} */}
+			<input onBlur={() => updateHour(createEvent(startRef.current?.value, stopRef.current?.value), index)} type="time" ref={startRef} defaultValue={hour.start.toDate().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })} />
 									&ndash;
-			<input ref={stopRef} defaultValue={hour.stop.toDate().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })} />
+			<input onBlur={() => updateHour(createEvent(startRef.current?.value, stopRef.current?.value), index)} type="time" ref={stopRef} defaultValue={hour.stop.toDate().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })} />
 			<button className="RemoveHoursButton" onClick={() => removeHour(hour)}>Remove Hours</button>
 		</li>
 	)

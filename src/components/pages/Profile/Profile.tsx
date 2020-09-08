@@ -52,7 +52,10 @@ export default function Profile(props:
 							.reduce((accumulator: string, current: string) => accumulator + ', ' + current)}</p>}
 					</div>
 				</div>
-				<OfficeHours isUserSignedIn={userData === signedInUser} officeHours={userData.data()?.officeHours as Week} updateOfficeHours={updateOfficeHours} />
+				<div className="OfficeHoursAndSchedule">
+					<OfficeHours isUserSignedIn={userData === signedInUser} officeHours={userData.data()?.officeHours as Week} updateOfficeHours={updateOfficeHours} />
+					
+				</div>
 			</div>
 		)
 	else return (
