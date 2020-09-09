@@ -46,7 +46,10 @@ export default function Profile(props:
 		return (
 			<div className="Profile">
 				<div className="Sideways">
-					<Details user={userData.data()} />
+					<div>
+						<Details user={userData.data()} />
+						
+					</div>
 					{userData === signedInUser ?
 						<PossibleCourses courses={userData.data()?.courses} uid={uid} setUserData={setSignedInUser} /> :
 						<CurrentCourses courses={userData.data()?.courses} />}

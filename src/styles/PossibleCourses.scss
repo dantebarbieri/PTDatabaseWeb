@@ -1,16 +1,5 @@
 @import "./Variables.scss";
 
 .PossibleCourses {
-	button {
-		background-color: $nord3;
-		color: $nord6;
-		border-radius: 4px;
-		border: none;
-		padding: 4px 8px;
-
-		&:hover {
-			background-color: $nord4;
-			color: $nord0;
-		}
-	}
+	border: none;
 }

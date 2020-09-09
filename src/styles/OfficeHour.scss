@@ -2,14 +2,11 @@
 
 .OfficeHour {
 	button.changed {
-		background-color: $nord10;
+		background-color: $nord10 !important;
 	}
 
 	button {
-		margin-left: 1em;
-		margin-top: 1em;
-		color: $nord6;
-		background-color: $nord0;
-		border-radius: 1em;
+		margin-left: 1em !important;
+		margin-top: 1em !important;
 	}
 }
