@@ -31,6 +31,7 @@ export default function Navbar(props:
 				<NavLink  className="Navbar-link" activeClassName="active" to="/about">About</NavLink>
 				{roles && roles.includes('peer-teacher') && <NavLink  className="Navbar-link" activeClassName="active" to="/input-schedule">Input Schedule</NavLink>}
 				{roles && roles.includes('leader') && <NavLink  className="Navbar-link" activeClassName="active" to="/input-labs">Input Labs</NavLink>}
+				{user && user.uid && <NavLink  className="Navbar-link" activeClassName="active" to={`/profile?u=${user.uid}`}>Profile</NavLink>}
 			</span>
 			{user ? <UserIcon userIcon={user.photoURL} uid={user.uid} /> : <LoginButton setUser={setUser} setUserData={setUserData} />}
 		</div>
