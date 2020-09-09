@@ -1,0 +1,22 @@
+@import "./Variables.scss";
+
+.MutableGuide {
+	text-align: left;
+	* {
+		border-radius: 8px;
+		padding: 0 4px;
+	}
+
+	.invalid {
+		background-color: $nord11;
+	}
+
+	.course-invalid {
+		color: $nord1;
+		background-color: $nord13;
+	}
+
+	.changed {
+		background-color: $nord10;
+	}
+}

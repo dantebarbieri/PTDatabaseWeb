@@ -1,8 +1,11 @@
 import React from 'react'
 import firebase, { db } from '../../../firebase'
-import '../../../styles/Profile.scss'
 import OfficeHours from './OfficeHours'
 import Week from '../../../model/Week'
+import Details from './Details'
+import PossibleCourses from './PossibleCourses'
+import CurrentCourses from './CurrentCourses'
+import '../../../styles/Profile.scss'
 
 export default function Profile(props:
 	{
@@ -42,20 +45,13 @@ export default function Profile(props:
 	if (userData)
 		return (
 			<div className="Profile">
-				<div className="Details">
-					<img src={userData.data()?.photoUrl} alt={userData.data()?.name} />
-					<div>
-						<h1>{userData.data()?.name}</h1>
-						<a href={`mailto:${userData.data()?.email}`}><h4>{userData.data()?.email}</h4></a>
-						{userData.data()?.roles?.length && <p><strong>Roles: </strong>{userData.data()?.roles.sort()
-							.map((role: string) => role.replace(/-+/g, ' ').replace(/\b\w/g, c => c.toUpperCase()))
-							.reduce((accumulator: string, current: string) => accumulator + ', ' + current)}</p>}
-					</div>
+				<div className="Sideways">
+					<Details user={userData.data()} />
+					{userData === signedInUser ?
+						<PossibleCourses courses={userData.data()?.courses} uid={uid} setUserData={setSignedInUser} /> :
+						<CurrentCourses courses={userData.data()?.courses} />}
 				</div>
-				<div className="OfficeHoursAndSchedule">
-					<OfficeHours isUserSignedIn={userData === signedInUser} officeHours={userData.data()?.officeHours as Week} updateOfficeHours={updateOfficeHours} />
-					
-				</div>
+				<OfficeHours isUserSignedIn={userData === signedInUser} officeHours={userData.data()?.officeHours as Week} updateOfficeHours={updateOfficeHours} schedule={signedInUser?.data()?.schedule} />
 			</div>
 		)
 	else return (

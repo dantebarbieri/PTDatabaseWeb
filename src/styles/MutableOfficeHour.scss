@@ -1,12 +1,24 @@
 @import "./Variables.scss";
 
 .MutableOfficeHour {
+	&.course-invalid > input[type="time"] {
+		color: $nord1;
+		background-color: $nord13;
+	}
+
+	&.course-invalid > button {
+		color: $nord1;
+		background-color: $nord13;
+	}
+
 	&.invalid > input[type="time"] {
 		background-color: $nord11;
+		color: inherit;
 	}
 
 	&.invalid > button {
 		background-color: $nord11;
+		color: inherit;
 	}
 
 	input[type="time"] {

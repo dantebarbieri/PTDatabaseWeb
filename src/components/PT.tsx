@@ -37,13 +37,25 @@ export default function PT(props:
 			<hr />
 			<img alt={data.name} height="125" src={data.photoUrl} width="85" style={{ objectFit: "cover" }} />
 			<h3>{data.name} | <a href={`mailto:${data.email}`}>Email</a></h3>
-			<p><strong>Courses:</strong></p>
-			<ul>
-				TODO Automate Course List
+			<div className="Sideways">
+				<div>
+					<p><strong>Courses:</strong></p>
+					<ul>
+						TODO Automate Course List
 					<li>CSCE 206</li>
-				<li>CSCE 121</li>
-				<li>CSCE 221</li>
-			</ul>
+						<li>CSCE 121</li>
+						<li>CSCE 221</li>
+					</ul>
+				</div>
+				<div>
+					<p><strong>Courses Can Peer Teach:</strong></p>
+					{data.courses &&
+						<ul>
+							{data.courses.map((course: string) => <li>{course}</li>)}
+						</ul>
+					}
+				</div>
+			</div>
 			<p><strong>Office Hours:</strong></p>
 			{week && <ul>
 				{week.Monday.length !== 0 && timeToListItem("Monday", data.officeHours.Monday)}

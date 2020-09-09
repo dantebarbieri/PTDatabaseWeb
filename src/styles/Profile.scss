@@ -7,19 +7,11 @@
 	align-items: left;
 	justify-content: space-around;
 
-	.Details {
+	div.Sideways {
 		display: flex;
+		flex-direction: row;
 		align-items: left;
-
-		img {
-			height: 10rem;
-			width: auto;
-			border-radius: 0.75rem;
-		}
-
-		h1 {
-			margin: 0.67em;
-		}
+		justify-content: space-between;
 	}
 
 	ul {

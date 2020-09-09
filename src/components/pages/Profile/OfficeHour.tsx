@@ -6,37 +6,41 @@ import MutableOfficeHour from './MutableOfficeHour'
 import timestampCompare from '../../../model/TimestampCompare'
 import '../../../styles/OfficeHour.scss'
 
+function timeConflict(a: Event, b: Event): boolean {
+	return ((timestampCompare(a.start, b.start) > 0 && timestampCompare(a.start, b.stop) < 0) || (timestampCompare(a.stop, b.start) > 0 && timestampCompare(a.stop, b.stop) < 0) || (timestampCompare(a.start, b.start) < 0 && timestampCompare(a.stop, b.stop) > 0))
+}
+
 export default function OfficeHour(props:
 	{
 		day: string
 		isUserSignedIn: boolean
 		hours: Event[]
 		updateHours: (hours: Event[]) => void
+		courses?: {label: string, event: Event}[]
 	}
 ) {
-	const { day, isUserSignedIn, hours, updateHours } = props
+	const { day, isUserSignedIn, hours, updateHours, courses } = props
+
+	const [changed, setChanged] = React.useState<boolean>(false);
 
 	const [localHours, setLocalHours] = React.useState<Array<Event>>(hours)
 
 	const removeHour = (officeHour: Event) => setLocalHours(hours => hours.filter(hour => hour !== officeHour))
 
 	const updateHour = (officeHour?: Event, index?: number) => {
-		console.log("updateHour Called")
-		console.log("officeHour", officeHour)
-		console.log("index", index)
 		if (officeHour) {
-			// console.log(officeHour.start.toDate(), officeHour.stop.toDate())
-			// console.log("officeHour Times: ", localHours.filter(hour => hour !== officeHour && ((timestampCompare(officeHour.start, hour.start) > 0 && timestampCompare(officeHour.start, hour.stop) < 0) || (timestampCompare(officeHour.stop, hour.start) > 0 && timestampCompare(officeHour.stop, hour.stop) < 0))).length)
+			setChanged(true);
 			if (index || index === 0) {
-				console.log(`Office Hour at Position ${index} Changed.`)
-				return setLocalHours(localHours => {
-					return localHours.filter(hours => hours !== localHours[index]).concat(officeHour);
-				})
+				return setLocalHours(localHours => localHours.filter(hours => hours !== localHours[index]).concat(officeHour).sort((a, b) => timestampCompare(a.start, b.start)))
 			} else {
-				console.log(`Office Hour Added.`)
 				return setLocalHours(localHours => localHours.concat(officeHour).sort((a, b) => timestampCompare(a.start, b.start)))
 			}
 		}
+	}
+
+	const countCourseConflicts = (officeHour: Event): number => {
+		if(!courses) return 0
+		else return courses.filter(course => timeConflict(officeHour, course.event)).length
 	}
 
 	let i = 0
@@ -49,11 +53,17 @@ export default function OfficeHour(props:
 					{isUserSignedIn ?
 						(
 							localHours.map(officeHour => (
-								<MutableOfficeHour key={uuidv4()} index={i++} conflicts={localHours.filter(hour => hour !== officeHour && ((timestampCompare(officeHour.start, hour.start) > 0 && timestampCompare(officeHour.start, hour.stop) < 0) || (timestampCompare(officeHour.stop, hour.start) > 0 && timestampCompare(officeHour.stop, hour.stop) < 0) || (timestampCompare(officeHour.start, hour.start) < 0 && timestampCompare(officeHour.stop, hour.stop) > 0))).length} hour={officeHour} removeHour={removeHour} updateHour={updateHour} />
+								<MutableOfficeHour key={uuidv4()} index={i++} conflicts={localHours.filter(hour => hour !== officeHour && timeConflict(officeHour, hour)).length} courseConflicts={countCourseConflicts(officeHour)} hour={officeHour} removeHour={removeHour} updateHour={updateHour} />
 							)).concat((
 								<li key={uuidv4()}>
-									<button className="AddHoursButton" onClick={() => setLocalHours(hours => hours.concat({ start: firebase.firestore.Timestamp.now(), stop: firebase.firestore.Timestamp.now() }))}>Add Hours</button>
-									{localHours !== hours && <button className="SaveHoursButton" onClick={() => updateHours(localHours)}>Save Hours</button>}
+									<button className="AddHoursButton" onClick={() => {
+										setChanged(true);
+										return setLocalHours(hours => hours.concat({ start: firebase.firestore.Timestamp.now(), stop: firebase.firestore.Timestamp.now() }))
+									}}>Add Hours</button>
+									{localHours !== hours && <button className={`SaveHoursButton${changed ? ' changed' : ''}`} onClick={() => {
+										setChanged(false);
+										return updateHours(localHours)
+									}}>Save Hours</button>}
 								</li>))
 						) :
 						hours.map((officeHour: Event) => (

@@ -7,13 +7,14 @@ import '../../../styles/MutableOfficeHour.scss'
 export default function Mutablehour(props:
 	{
 		conflicts: number
+		courseConflicts: number
 		hour: Event
 		index?: number
 		removeHour: (hour: Event) => void
 		updateHour: (hours?: Event, index?: number) => void
 	}
 ) {
-	const { conflicts, hour, index, removeHour, updateHour } = props
+	const { conflicts, courseConflicts, hour, index, removeHour, updateHour } = props
 
 	const startRef = React.useRef<HTMLInputElement>(null)
 	const stopRef = React.useRef<HTMLInputElement>(null)
@@ -34,8 +35,7 @@ export default function Mutablehour(props:
 	}
 
 	return (
-		<li className={`MutableOfficeHour ${conflicts || timestampCompare(hour.start, hour.stop) > 0 ? 'invalid' : ''}`}>
-			{/* {conflicts !== 0 && <p>{conflicts} Conflict{conflicts !== 1 && 's'}</p>} */}
+		<li className={`MutableOfficeHour${courseConflicts ? ' course-invalid' : ''}${conflicts || timestampCompare(hour.start, hour.stop) > 0 ? ' invalid' : ''}`}>
 			<input onBlur={() => updateHour(createEvent(startRef.current?.value, stopRef.current?.value), index)} type="time" ref={startRef} defaultValue={hour.start.toDate().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })} />
 									&ndash;
 			<input onBlur={() => updateHour(createEvent(startRef.current?.value, stopRef.current?.value), index)} type="time" ref={stopRef} defaultValue={hour.stop.toDate().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })} />

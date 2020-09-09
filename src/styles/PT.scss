@@ -6,6 +6,13 @@
 		border-radius: 0.25rem;
 	}
 
+	div.Sideways {
+		display: flex;
+		flex-direction: row;
+		align-items: left;
+		justify-content: space-around;
+	}
+
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 

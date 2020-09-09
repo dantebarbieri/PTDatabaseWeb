@@ -1,9 +1,9 @@
 @import "./Variables.scss";
 
 .OfficeHour {
-	// .invalid {
-	// 	background-color: $nord11;
-	// }
+	button.changed {
+		background-color: $nord10;
+	}
 
 	button {
 		margin-left: 1em;
